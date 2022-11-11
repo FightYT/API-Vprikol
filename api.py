@@ -9,7 +9,7 @@ class VprikolAPI:
         self.base_url = "https://api.vprikol.dev"  # А то у веселого прикола постоянно меняется домен и/или ссылка
         self.session = session
 
-    def get_members(self, fraction_id: int, server) -> dict:
+    def get_members(self, fraction_id: int, server: int) -> dict:
         """GET | Данная функция возвращает полный список игроков, состоящих во фракции"""
         return self.session.get(f"{self.base_url}/members/",
                                 params={"server": server, "fraction_id": fraction_id}).json()
@@ -18,7 +18,7 @@ class VprikolAPI:
         """GET | Получение статистики игрока по идентификатору из созданного задания"""
         return self.session.get(f"{self.base_url}/find/getTaskResult/", params={"request_id": request_id}).json()
 
-    def get_rating(self, rating_type: int, server) -> dict:
+    def get_rating(self, rating_type: int, server: int) -> dict:
         """GET | Топ игроков/семей на сервере по параметрам"""
         return self.session.get(f"{self.base_url}/rating/", params={"type": rating_type, "server": server}).json()
 
@@ -26,7 +26,7 @@ class VprikolAPI:
         """GET | Доступность серверов Аризоны"""
         return self.session.get(f"{self.base_url}/status/").json()
 
-    def get_estate(self, estate_type: str, server) -> dict:
+    def get_estate(self, estate_type: str, server: int) -> dict:
         """GET | Возвращает дома или бизнесы, у которых нет владельца"""
         return self.session.get(f"{self.base_url}/get_estate/",
                                 params={"estate_type": estate_type, "server": server}).json()
@@ -43,10 +43,10 @@ class VprikolAPI:
         """GET | IP-адрес запроса. Поддерживается IPv6"""
         return requests.get(f"{self.base_url}/ip/").json()
 
-    def create_task(self, nick: str, server) -> dict:
+    def create_task(self, nick: str, server: int) -> dict:
         """POST | Создание задания на получение статистики игрока"""
         return self.session.post(f"{self.base_url}/find/createTask/", params={"nick": nick, "server": server}).json()
 
     def generate_ss(self, commands: str) -> dict:
         """POST | API генератора скриншот-ситуаций из ВК-бота"""
-        return self.session.get(f"{self.base_url}/rpnick/", params={"commands": commands}).json()
+        return self.session.post(f"{self.base_url}/rpnick/", params={"commands": commands}).json()
