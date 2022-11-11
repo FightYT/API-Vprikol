@@ -4,48 +4,49 @@ import requests
 class VprikolAPI:
     def __init__(self, token: str) -> None:
         session = requests.sessions.Session()
-        session.params = {"token":token} # Полученый токен
+        session.params = {"token": token}  # Полученый токен
 
-        self.baseUrl = "https://api.vprikol.dev" # А то у веселого прикола постоянно меняется домен и/или ссылка
-        self.session = session 
+        self.base_url = "https://api.vprikol.dev"  # А то у веселого прикола постоянно меняется домен и/или ссылка
+        self.session = session
 
-
-    def getMembers(self, fraction_id:int, server):
+    def get_members(self, fraction_id: int, server) -> dict:
         """GET | Данная функция возвращает полный список игроков, состоящих во фракции"""
-        return self.session.get(f"{self.baseUrl}/members/", params={"server":server, "fraction_id":fraction_id}).json()    
+        return self.session.get(f"{self.base_url}/members/",
+                                params={"server": server, "fraction_id": fraction_id}).json()
 
-    def getTaskResult(self, request_id:int):
+    def get_tasK_result(self, request_id: int) -> dict:
         """GET | Получение статистики игрока по идентификатору из созданного задания"""
-        return requests.get(f"{self.baseUrl}/find/getTaskResult/", params={"request_id":request_id}).json()
+        return self.session.get(f"{self.base_url}/find/getTaskResult/", params={"request_id": request_id}).json()
 
-    def getRating(self, type:int, server):
+    def get_rating(self, rating_type: int, server) -> dict:
         """GET | Топ игроков/семей на сервере по параметрам"""
-        return self.session.get(f"{self.baseUrl}/rating/", params={"type":type, "server":server}).json()
+        return self.session.get(f"{self.base_url}/rating/", params={"type": rating_type, "server": server}).json()
 
-    def getStatus(self):
+    def get_status(self) -> dict:
         """GET | Доступность серверов Аризоны"""
-        return self.session.get(f"{self.baseUrl}/status/").json()
-        
-    def getEstate(self, estate_type:str, server):
+        return self.session.get(f"{self.base_url}/status/").json()
+
+    def get_estate(self, estate_type: str, server) -> dict:
         """GET | Возвращает дома или бизнесы, у которых нет владельца"""
-        return self.session.get(f"{self.baseUrl}/get_estate/", params={"estate_type":estate_type, "server":server}).json()
+        return self.session.get(f"{self.base_url}/get_estate/",
+                                params={"estate_type": estate_type, "server": server}).json()
 
-    def getCheckRP(self, nick:str):
+    def getCheckRP(self, nick: str) -> dict:
         """GET | Проверка ника на РПшность"""
-        return self.session.get(f"{self.baseUrl}/checkrp/", params={"nick":nick}).json()
+        return self.session.get(f"{self.base_url}/checkrp/", params={"nick": nick}).json()
 
-    def getRPNick(self, gender:str, nation:str):
+    def get_rp_nick(self, gender: str, nation: str) -> dict:
         """GET | Генерация РП ника по параметрам"""
-        return self.session.get(f"{self.baseUrl}/rpnick/", params={"gender":gender, "nation":nation}).json()
+        return self.session.get(f"{self.base_url}/rpnick/", params={"gender": gender, "nation": nation}).json()
 
-    def getIP(self):
+    def get_ip(self) -> dict:
         """GET | IP-адрес запроса. Поддерживается IPv6"""
-        return requests.get(f"{self.baseUrl}/ip/").json()
+        return requests.get(f"{self.base_url}/ip/").json()
 
-    def createTask(self, nick:str, server):
+    def create_task(self, nick: str, server) -> dict:
         """POST | Создание задания на получение статистики игрока"""
-        return self.session.post(f"{self.baseUrl}/find/createTask/", params={"nick":nick, "server":server}).json()
+        return self.session.post(f"{self.base_url}/find/createTask/", params={"nick": nick, "server": server}).json()
 
-    def generateSS(self, commands:str):
+    def generate_ss(self, commands: str) -> dict:
         """POST | API генератора скриншот-ситуаций из ВК-бота"""
-        return self.session.get(f"{self.baseUrl}/rpnick/", params={"commands":commands}).json()
+        return self.session.get(f"{self.base_url}/rpnick/", params={"commands": commands}).json()
