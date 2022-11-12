@@ -14,7 +14,7 @@ class VprikolAPI:
         return self.session.get(f"{self.base_url}/members/",
                                 params={"server": server, "fraction_id": fraction_id}).json()
 
-    def get_tasK_result(self, request_id: int) -> dict:
+    def get_task_result(self, request_id: int) -> dict:
         """GET | Получение статистики игрока по идентификатору из созданного задания"""
         return self.session.get(f"{self.base_url}/find/getTaskResult/", params={"request_id": request_id}).json()
 
